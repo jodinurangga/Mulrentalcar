@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  /* 1. Core Palette (70% White/Ivory, 20% Charcoal, 10% Champagne Gold) */
+  --color-primary: #20252B;          /* Charcoal */
+  --color-primary-600: #343B45;
+  --color-charcoal: #20252B;
+  --color-gold: #C49A3A;             /* Champagne gold */
+  --color-gold-dark: #9B7627;        /* Dark gold */
+  --color-accent: #C49A3A;
+  --color-ivory: #F7F4EC;            /* Warm ivory */
+  --color-bg: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-surface-ivory: #F7F4EC;
+  --color-text: #20252B;
+  --color-muted: #5A626A;            /* Contrast ratio ≥ 4.5:1 */
+  --color-border: #E5E0D4;           /* Subtle warm hairline */
+  --color-border-light: #F0ECE1;
+  --color-wa: #25D366;               /* WhatsApp green */
+  --color-wa-dark: #1EBE5D;
+  --color-success: #15803D;
+  --color-warning: #B45309;
+  --color-error: #B91C1C;
+  --color-info: #1D4ED8;
+
+  /* 2. Sharp Zero-Radius Geometry as Default */
+  --radius-input: 0px;
+  --radius-card: 0px;
+  --radius-button: 0px;
+  --radius-media: 0px;
+  --radius-badge: 0px;
+  --radius-full: 9999px;
+
+  --container-max: 1280px;
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-600: var(--color-primary-600);
+  --color-charcoal: var(--color-charcoal);
+  --color-gold: var(--color-gold);
+  --color-gold-dark: var(--color-gold-dark);
+  --color-accent: var(--color-accent);
+  --color-ivory: var(--color-ivory);
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-ivory: var(--color-surface-ivory);
+  --color-text: var(--color-text);
+  --color-muted: var(--color-muted);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  --color-wa: var(--color-wa);
+  --color-wa-dark: var(--color-wa-dark);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-info: var(--color-info);
+
+  --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+}
+
+/* Base resets & typography */
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible focus-visible state */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Editorial typography utilities */
+.font-editorial {
+  font-family: var(--font-serif);
+  letter-spacing: -0.015em;
+}
+
+/* Fine Gold Hairline accents */
+.gold-hairline {
+  border-color: #C49A3A;
+}
+
+.gold-gradient-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #C49A3A 50%, transparent 100%);
+}
+
+/* Subtle 3D Card Perspective hover effects */
+.perspective-container {
+  perspective: 1200px;
+}
+
+.card-3d {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-3d:hover {
+    transform: translateY(-4px) rotateX(1deg) rotateY(-0.5deg);
+    box-shadow: 0 16px 32px -8px rgba(32, 37, 43, 0.08), 0 4px 12px -2px rgba(196, 154, 58, 0.05);
+  }
+}
+
+/* Staggered entrance reveal animations */
+@keyframes editorialFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes editorialFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-editorial-fade-up {
+  animation: editorialFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-editorial-fade-in {
+  animation: editorialFadeIn 0.5s ease-out forwards;
+}
+
+/* Prefers-reduced-motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+  }
+}

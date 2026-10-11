@@ -1,0 +1,12 @@
+{
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.ai/sse",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer PASTE_YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}

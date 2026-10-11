@@ -1,0 +1,71 @@
+# PT. MAULANA SADHA UTAMA (MUL Rent Car)
+# Apache Web Server Configuration for Rumahweb cPanel Static Hosting
+# Generated for Phase 5.4 Static Export
+
+# Disable directory browsing
+Options -Indexes
+
+# Prevent Apache mod_dir from issuing 301 redirects adding trailing slash to clean URLs
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Force HTTPS (Safe against reverse proxy loops)
+  RewriteCond %{HTTPS} !on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # 2. Existing files and directories: Serve directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 3. Explicit resolution for /mobil and /mobil/ (Avoid directory conflict with /mobil/)
+  RewriteRule ^mobil/?$ mobil.html [L]
+
+  # 4. Detail vehicle pages: /mobil/[slug] -> mobil/[slug].html
+  RewriteCond %{DOCUMENT_ROOT}/mobil/$1.html -f
+  RewriteRule ^mobil/([a-z0-9-]+)/?$ mobil/$1.html [L]
+
+  # 5. General top-level clean URLs: /page -> page.html
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([a-z0-9-]+)/?$ $1.html [L]
+</IfModule>
+
+# 6. Custom 404 Error Document (Using verified exported 404.html)
+ErrorDocument 404 /404.html
+
+# 7. Gzip Compression (mod_deflate)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# 8. Caching Control
+<IfModule mod_headers.c>
+  # HTML pages: Do not cache aggressively so content updates reflect immediately
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+
+  # Static hashed assets under _next/static: Immutable 1 year cache
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Media and image assets: 30 days cache
+  <FilesMatch "\.(webp|svg|png|jpg|jpeg|gif|ico|woff|woff2)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+# 9. Security Headers
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
